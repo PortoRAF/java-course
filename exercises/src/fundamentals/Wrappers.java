@@ -24,5 +24,8 @@ public class Wrappers {
 		System.out.println(l / 3);
 		System.out.println(bo);
 		System.out.println(bo.toString().toUpperCase());
+		System.out.println(f);
+		System.out.println(d);
+		System.out.println(c);
 	}
 }
