@@ -17,6 +17,6 @@ public class User {
 			return equalsName && equalsEmail;
 		} else {
 			return false;
-		}
+		}		
 	}
 }
