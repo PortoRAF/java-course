@@ -6,7 +6,7 @@ public class Lists {
 
 	public static void main(String[] args) {
 		
-		ArrayList<Users> list = new ArrayList<Users>();
+		ArrayList<Users> list = new ArrayList<>();
 		
 		Users u1 = new Users("Anna");		
 		list.add(u1);
