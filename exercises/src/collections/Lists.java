@@ -6,15 +6,15 @@ public class Lists {
 
 	public static void main(String[] args) {
 		
-		ArrayList<User> list = new ArrayList<User>();
+		ArrayList<Users> list = new ArrayList<Users>();
 		
-		User u1 = new User("Anna");		
+		Users u1 = new Users("Anna");		
 		list.add(u1);
 		
-		list.add(new User("Charles"));
-		list.add(new User("Lya"));
-		list.add(new User("Bia"));
-		list.add(new User("Manu"));
+		list.add(new Users("Charles"));
+		list.add(new Users("Lya"));
+		list.add(new Users("Bia"));
+		list.add(new Users("Manu"));
 		
 		// Method toString() is called implicitly
 		System.out.println(list.get(3));
@@ -22,12 +22,12 @@ public class Lists {
 		// remove(id) method returns the stored value
 		System.out.println("Removed: " + list.remove(1));
 		// remove(obj) returns true or false
-		System.out.println("Removed? " + list.remove(new User("Manu")));
+		System.out.println("Removed? " + list.remove(new Users("Manu")));
 		
 		// method contains uses hashcode to find elements
-		System.out.println("contains? " + list.contains(new User("Bia")));
+		System.out.println("contains? " + list.contains(new Users("Bia")));
 		
-		for(User u : list) {
+		for(Users u : list) {
 			System.out.println(u.name);
 		}
 	}

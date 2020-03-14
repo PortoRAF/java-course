@@ -1,10 +1,10 @@
 package collections;
 
-public class User {
+public class Users {
 	
 	String name;
 	
-	User(String name) {
+	Users(String name) {
 		this.name = name;
 	}
 	
@@ -28,7 +28,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Users other = (Users) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
