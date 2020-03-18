@@ -1,6 +1,6 @@
 package oop.polymorphism;
 
-public class Food {
+public abstract class Food {
 	
 	private double weight;
 	

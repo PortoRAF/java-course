@@ -8,6 +8,7 @@ public class Dinner {
 		
 		Rice ingredient1 = new Rice(0.2);
 		Beans ingredient2 = new Beans(0.1);
+//		Food ingredient3 = new Food(0.3);
 		
 		System.out.println(guest.getWeight());
 		
