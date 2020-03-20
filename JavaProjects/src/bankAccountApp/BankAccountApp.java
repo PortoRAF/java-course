@@ -7,10 +7,13 @@ public class BankAccountApp {
 		// Read CSV file the create new accounts
 		
 		
-		Checking chk = new Checking("John Smith", "123456789", 1500);
-		Savings svgs = new Savings("Eric Johnson", "987654321", 2500);
+		Checking checking = new Checking("John Smith", "123456789", 1500);
+		Savings savings = new Savings("Eric Johnson", "987654321", 2500);
 		
-		chk.showInfo();
-		svgs.showInfo();
+		checking.showInfo();
+		savings.showInfo();
+
+		savings.compound();
+
 	}
 }
