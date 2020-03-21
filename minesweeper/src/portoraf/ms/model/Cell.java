@@ -3,12 +3,14 @@ package portoraf.ms.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import portoraf.ms.exception.ExplosionException;
+
 public class Cell {
 
 	private final int row;
 	private final int col;
 	
-	private boolean hasMine = false;
+	private boolean mined = false;
 	private boolean opened = false;
 	private boolean flagged = false;
 	
@@ -38,6 +40,92 @@ public class Cell {
 		}
 		else {
 			return false;
+		}
+	}
+	
+	void toggleFlagged() {
+		if (!opened) {
+			flagged = !flagged;
+		}
+	}
+	
+	boolean open() {
+		if (!opened && !flagged) {
+			opened = true;			
+			if (mined) {
+				throw new ExplosionException();
+			}			
+			if (safeNeighbor()) {
+				neighbors.forEach(n -> n.open());
+			}			
+			return true;
+		}
+		else {		
+			return false;
+		}
+	}
+	
+	boolean safeNeighbor() {
+		return neighbors.stream().noneMatch(n -> n.mined);
+	}
+	
+	void setMined() {
+		if (!mined) {
+			mined = true;
+		}
+	}
+	
+	public boolean isFlagged() {
+		return flagged;
+	}
+	
+	public boolean isOpen() {
+		return opened;
+	}
+	
+	public boolean isClosed() {
+		return !isOpen();
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+	
+	boolean goalMet() {
+		boolean disclosed = !mined && opened;
+		boolean secured = mined && flagged;
+		return disclosed || secured;
+	}
+	
+	long minesInVicinity() {
+		return neighbors.stream().filter(n -> n.mined).count();
+	}
+	
+	void restart() {
+       mined = false;     
+       opened = false;    
+       flagged = false;
+	}
+	
+	public String toString() {
+		if (flagged) {
+			return "x";
+		}
+		else if (opened && mined) {
+			return "*";
+		}
+		else if (opened && minesInVicinity() > 0) {
+			return Long.toString(minesInVicinity());
+		}
+		else if (opened) {
+			return " ";
+		}
+		else {
+			return "?";
 		}
 	}
 }
