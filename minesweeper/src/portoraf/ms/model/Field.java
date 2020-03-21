@@ -20,6 +20,20 @@ public class Field {
 		bindNeighbors();
 		sortMines();
 	}
+	
+	public void open(int row, int col) {
+		cells.parallelStream()
+			.filter(c -> c.getRow() == row && c.getCol() == col)
+			.findFirst()
+			.ifPresent(c -> c.open());
+	}
+	
+	public void flag(int row, int col) {
+		cells.parallelStream()
+		.filter(c -> c.getRow() == row && c.getCol() == col)
+		.findFirst()
+		.ifPresent(c -> c.toggleFlagged());
+	}
 
 	private void generateCells() {
 		for (int row = 0; row < numOfRows; row++) {
@@ -60,6 +74,17 @@ public class Field {
 	}
 	
 	public String toString() {
-		return "";
+		StringBuilder sb = new StringBuilder();		
+		int index = 0;
+		for (int row = 0; row < numOfRows; row++) {
+			for (int col = 0; col < numOfCols; col++) {
+				sb.append(" ");
+				sb.append(cells.get(index));
+				sb.append(" ");
+				index++;
+			}
+			sb.append("\n");
+		}		
+		return sb.toString();
 	}
 }
