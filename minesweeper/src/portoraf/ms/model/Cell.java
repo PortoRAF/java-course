@@ -86,6 +86,10 @@ public class Cell {
 	public boolean isClosed() {
 		return !isOpen();
 	}
+	
+	public boolean isMined() {
+		return mined;
+	}
 
 	public int getRow() {
 		return row;
