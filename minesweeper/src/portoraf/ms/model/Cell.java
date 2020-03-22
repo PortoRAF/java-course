@@ -75,8 +75,16 @@ public class Cell {
 		}
 	}
 	
+	public boolean isMined() {
+		return mined;
+	}
+	
 	public boolean isFlagged() {
 		return flagged;
+	}
+	
+	void setOpen() {
+		this.opened = true;
 	}
 	
 	public boolean isOpen() {
@@ -85,10 +93,6 @@ public class Cell {
 	
 	public boolean isClosed() {
 		return !isOpen();
-	}
-	
-	public boolean isMined() {
-		return mined;
 	}
 
 	public int getRow() {

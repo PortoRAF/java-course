@@ -3,6 +3,8 @@ package portoraf.ms.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import portoraf.ms.exception.ExplosionException;
+
 public class Field {
 
 	private int numOfRows;
@@ -22,10 +24,16 @@ public class Field {
 	}
 	
 	public void open(int row, int col) {
-		cells.parallelStream()
-			.filter(c -> c.getRow() == row && c.getCol() == col)
-			.findFirst()
-			.ifPresent(c -> c.open());
+		try {
+			cells.parallelStream()
+				.filter(c -> c.getRow() == row && c.getCol() == col)
+				.findFirst()
+				.ifPresent(c -> c.open());
+		}
+		catch (ExplosionException e) {
+			cells.forEach(c -> c.setOpen());
+			throw e;
+		}
 	}
 	
 	public void flag(int row, int col) {
@@ -76,7 +84,16 @@ public class Field {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();		
 		int index = 0;
+		
+		sb.append("  ");
+		for (int col = 0; col < numOfCols; col++) {
+			sb.append(" ");
+			sb.append(col);
+			sb.append(" ");
+		}
+		sb.append("\n");
 		for (int row = 0; row < numOfRows; row++) {
+			sb.append(row + " ");
 			for (int col = 0; col < numOfCols; col++) {
 				sb.append(" ");
 				sb.append(cells.get(index));
