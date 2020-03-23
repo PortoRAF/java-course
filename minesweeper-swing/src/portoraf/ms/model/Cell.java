@@ -50,7 +50,7 @@ public class Cell {
 		}
 	}
 	
-	void toggleFlagged() {
+	public void toggleFlagged() {
 		if (!opened) {
 			flagged = !flagged;
 			
@@ -63,7 +63,7 @@ public class Cell {
 		}
 	}
 	
-	boolean open() {
+	public boolean open() {
 		if (!opened && !flagged) {
 			if (mined) {
 				notifyObservers(CellEvent.EXPLODE);

@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 
 public class Field implements CellObserver {
 
-	private int numOfRows;
-	private int numOfCols;
-	private int numOfMines;
+	private final int numOfRows;
+	private final int numOfCols;
+	private final int numOfMines;
 	
 	private final List<Cell> cells = new ArrayList<>();
 	private final List<Consumer<EventResult>> observers = new ArrayList<>();
@@ -21,6 +21,10 @@ public class Field implements CellObserver {
 		generateCells();
 		bindNeighbors();
 		sortMines();
+	}
+	
+	public void forEachCell(Consumer<Cell> function) {
+		cells.forEach(function);
 	}
 	
 	public void registerObserver(Consumer<EventResult> observer) {
@@ -84,6 +88,14 @@ public class Field implements CellObserver {
 	public void restart() {
 		cells.stream().forEach(c -> c.restart());
 		sortMines();
+	}
+	
+	public int getNumOfRows() {
+		return numOfRows;
+	}
+
+	public int getNumOfCols() {
+		return numOfCols;
 	}
 
 	public void eventOcurred(Cell cell, CellEvent event) {
