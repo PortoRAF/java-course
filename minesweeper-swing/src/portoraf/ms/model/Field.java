@@ -2,14 +2,16 @@ package portoraf.ms.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class Field {
+public class Field implements CellObserver {
 
 	private int numOfRows;
 	private int numOfCols;
 	private int numOfMines;
 	
 	private final List<Cell> cells = new ArrayList<>();
+	private final List<Consumer<EventResult>> observers = new ArrayList<>();
 
 	public Field(int numOfRows, int numOfCols, int numOfMines) {		
 		this.numOfRows = numOfRows;
@@ -21,31 +23,35 @@ public class Field {
 		sortMines();
 	}
 	
-	public void open(int row, int col) {
-		try {
-			cells.parallelStream()
-				.filter(c -> c.getRow() == row && c.getCol() == col)
-				.findFirst()
-				.ifPresent(c -> c.open());
-		}
-		catch (Exception e) {
-			// FIXME Fix method 'open' implementation
-			cells.forEach(c -> c.setOpen());
-			throw e;
-		}
+	public void registerObserver(Consumer<EventResult> observer) {
+		observers.add(observer);
 	}
+	
+	private void notifyObservers(boolean result) {
+		observers.stream().forEach(o -> o.accept(new EventResult(result)));
+	}
+	
+	public void open(int row, int col) {
+		cells.parallelStream()
+			.filter(c -> c.getRow() == row && c.getCol() == col)
+			.findFirst()
+			.ifPresent(c -> c.open());
+	}
+
 	
 	public void flag(int row, int col) {
 		cells.parallelStream()
-		.filter(c -> c.getRow() == row && c.getCol() == col)
-		.findFirst()
-		.ifPresent(c -> c.toggleFlagged());
+			.filter(c -> c.getRow() == row && c.getCol() == col)
+			.findFirst()
+			.ifPresent(c -> c.toggleFlagged());
 	}
 
 	private void generateCells() {
 		for (int row = 0; row < numOfRows; row++) {
 			for (int col = 0; col < numOfCols; col++) {
-				cells.add(new Cell(row, col));
+				Cell cell = new Cell(row, col);
+				cell.registerObserver(this);
+				cells.add(cell);
 			}
 		}		
 	}
@@ -78,5 +84,21 @@ public class Field {
 	public void restart() {
 		cells.stream().forEach(c -> c.restart());
 		sortMines();
+	}
+
+	public void eventOcurred(Cell cell, CellEvent event) {
+		if (event == CellEvent.EXPLODE) {
+			displayMines();
+			notifyObservers(false);
+		}		
+		else if (goalMet()) {
+			notifyObservers(true);
+		}
+	}
+
+	private void displayMines() {
+		cells.stream()
+			.filter(c -> c.isMined())
+			.forEach(c -> c.setOpen(true));		
 	}
 }

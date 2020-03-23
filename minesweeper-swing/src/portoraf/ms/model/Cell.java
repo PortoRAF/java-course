@@ -13,10 +13,19 @@ public class Cell {
 	private boolean flagged = false;
 	
 	private List<Cell> neighbors = new ArrayList<>();
+	private List<CellObserver> observers = new ArrayList<>();
 	
 	Cell(int row, int col) {
 		this.row = row;
 		this.col = col;
+	}
+	
+	public void registerObserver(CellObserver observer) {
+		observers.add(observer);
+	}
+	
+	private void notifyObservers(CellEvent event) {
+		observers.stream().forEach(o -> o.eventOcurred(this, event));
 	}
 	
 	boolean addNeighbor(Cell neighbor) {
@@ -44,15 +53,25 @@ public class Cell {
 	void toggleFlagged() {
 		if (!opened) {
 			flagged = !flagged;
+			
+			if (flagged) {
+				notifyObservers(CellEvent.FLAG);
+			}
+			else {
+				notifyObservers(CellEvent.UNFLAG);
+			}
 		}
 	}
 	
 	boolean open() {
 		if (!opened && !flagged) {
-			opened = true;			
 			if (mined) {
-				// TODO Implement new version
-			}			
+				notifyObservers(CellEvent.EXPLODE);
+				return true;
+			}
+			
+			setOpen(true);
+			
 			if (safeNeighbor()) {
 				neighbors.forEach(n -> n.open());
 			}			
@@ -81,8 +100,12 @@ public class Cell {
 		return flagged;
 	}
 	
-	void setOpen() {
-		this.opened = true;
+	void setOpen(boolean open) {
+		this.opened = open;
+		
+		if (open) {
+			notifyObservers(CellEvent.OPEN);
+		}
 	}
 	
 	public boolean isOpen() {
