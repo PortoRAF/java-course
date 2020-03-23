@@ -2,7 +2,9 @@ package portoraf.ms.view;
 
 import java.awt.GridLayout;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import portoraf.ms.model.Field;
 
@@ -15,8 +17,17 @@ public class FieldPanel extends JPanel {
 		
 		field.forEachCell(c -> add(new CellButton(c)));
 		
-		field.registerObserver(e -> {
-			// TODO Show result to user
+		field.registerObserver(e -> {			
+			SwingUtilities.invokeLater(() -> {
+				if (e.hasWon()) {
+					JOptionPane.showMessageDialog(this, "You won! :)");
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "You lose. :(");
+				}
+				
+				field.restart();
+			});
 		});
 	}
 }

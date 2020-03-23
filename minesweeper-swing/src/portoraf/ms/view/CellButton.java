@@ -49,6 +49,7 @@ public class CellButton extends JButton implements CellObserver, MouseListener {
 	}
 
 	private void applyStyleStandard() {
+		setBorder(BorderFactory.createBevelBorder(0));
 		setBackground(BG_STD);
 		setText("");
 	}

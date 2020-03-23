@@ -138,5 +138,6 @@ public class Cell {
        mined = false;     
        opened = false;    
        flagged = false;
+       notifyObservers(CellEvent.RESTART);
 	}
 }
