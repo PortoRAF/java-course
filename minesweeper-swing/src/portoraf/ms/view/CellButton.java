@@ -49,19 +49,53 @@ public class CellButton extends JButton implements CellObserver, MouseListener {
 	}
 
 	private void applyStyleStandard() {
-		
+		setBackground(BG_STD);
+		setText("");
 	}
 
 	private void applyStyleExplode() {
-		
+		setBackground(BG_EXPLODED);
+		setForeground(Color.WHITE);
+		setText("X");
 	}
 
 	private void applyStyleFlag() {
-		
+		setBackground(BG_FLAGGED);
+		setForeground(Color.BLACK);
+		setText("F");
 	}
 
 	private void applyStyleOpen() {
 		
+		setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		
+		if (cell.isMined()) {
+			setBackground(BG_EXPLODED);
+			return;
+		}
+		
+		setBackground(BG_STD);
+		
+		switch((int) cell.minesInVicinity()) {
+		case 1:
+			setForeground(GREEN_TEXT);
+			break;
+		case 2:
+			setForeground(Color.BLUE);
+			break;
+		case 3:
+			setForeground(Color.YELLOW);
+			break;
+		case 4:			
+		case 5:			
+		case 6:
+			setForeground(Color.YELLOW);
+			break;
+		default:
+			setForeground(Color.PINK);
+		}
+		
+		setText(!cell.safeNeighbor() ? cell.minesInVicinity() + "" : "");
 	}
 
 	public void mousePressed(MouseEvent e) {

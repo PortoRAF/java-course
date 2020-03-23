@@ -82,7 +82,7 @@ public class Cell {
 		}
 	}
 	
-	boolean safeNeighbor() {
+	public boolean safeNeighbor() {
 		return neighbors.stream().noneMatch(n -> n.mined);
 	}
 	
@@ -130,7 +130,7 @@ public class Cell {
 		return disclosed || secured;
 	}
 	
-	long minesInVicinity() {
+	public long minesInVicinity() {
 		return neighbors.stream().filter(n -> n.mined).count();
 	}
 	

@@ -111,6 +111,7 @@ public class Field implements CellObserver {
 	private void displayMines() {
 		cells.stream()
 			.filter(c -> c.isMined())
+			.filter(c -> !c.isFlagged())
 			.forEach(c -> c.setOpen(true));		
 	}
 }
