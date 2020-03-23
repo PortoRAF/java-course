@@ -8,15 +8,15 @@ public class StudentDatabaseApp {
 
 		// ask how many students will be added to database
 		System.out.print("Enter number of new students to enroll: ");
-		Scanner in = new Scanner(System.in);
-		int numOfStudents = in.nextInt();
+		Scanner scanner = new Scanner(System.in);
+		int numOfStudents = Integer.parseInt(scanner.nextLine());
 		Student[] students = new Student[numOfStudents];
 		
 		// create n number of students
 		for (int n = 0; n < numOfStudents; n++) {
-			students[n] = new Student();		
-			students[n].enroll();
-			students[n].payTuition();
+			students[n] = new Student(scanner);		
+			students[n].enroll(scanner);
+			students[n].payTuition(scanner);
 		}		
 
 		System.out.println();
@@ -24,6 +24,7 @@ public class StudentDatabaseApp {
 		for (int n = 0; n < numOfStudents; n++) {
 			students[n].showInfo();			
 			System.out.println();
-		}		
-	}
+		}
+		scanner.close();
+	}	
 }

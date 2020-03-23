@@ -2,6 +2,7 @@ package classes;
 
 public class Equals {
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public static void main(String[] args) {
 
 		User u1 = new User();

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class FieldTest {
 
+	@SuppressWarnings("unused")
 	private Field field;
 	
 	@BeforeEach
